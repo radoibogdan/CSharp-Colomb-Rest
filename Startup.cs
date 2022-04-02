@@ -28,6 +28,16 @@ namespace Colomb
         {
 
             services.AddControllers();
+
+            // CORS Configuration
+            // Who is allowed to access this API, what methods are available and what headers must the user have
+            services.AddCors(o => {
+                o.AddPolicy("AllowAll", builder =>
+                    builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Colomb", Version = "v1" });
@@ -40,9 +50,13 @@ namespace Colomb
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Colomb v1"));
             }
+             /* Swagger */
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Colomb v1"));
+
+            // CORS POLICY, user specific Policy we defined in ConfigureServices
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 
