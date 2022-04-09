@@ -1,3 +1,5 @@
+using Colomb.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,7 +29,11 @@ namespace Colomb
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+            // Database
+            services.AddDbContext<DatabaseContext>(options =>
+                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
+            );
+
 
             // CORS Configuration
             // Who is allowed to access this API, what methods are available and what headers must the user have
@@ -38,10 +44,13 @@ namespace Colomb
                         .AllowAnyHeader());
             });
 
-            services.AddSwaggerGen(c =>
-            {
+            /* Swagger */
+            services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Colomb", Version = "v1" });
             });
+
+            /* Controllers */
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
