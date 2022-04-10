@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Colomb.Configurations;
 
 namespace Colomb
 {
@@ -43,6 +44,9 @@ namespace Colomb
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
+
+            /* Auto Mapper */
+            services.AddAutoMapper(typeof(MapperInitializer));
 
             /* Swagger */
             services.AddSwaggerGen(c => {
