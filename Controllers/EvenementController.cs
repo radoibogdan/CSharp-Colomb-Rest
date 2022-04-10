@@ -27,23 +27,9 @@ namespace Colomb.Controllers
         }
 
         // ------------------ GET ------------------ // 
-        /*        // Override Global Caching Options
-                [HttpGet]
-                //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)]
-                //[HttpCacheValidation(MustRevalidate = false)] // if data changes dont invalidate cache (to be used carefully)
-                [ResponseCache(CacheProfileName = "120SecondsDuration")]
-                [ProducesResponseType(StatusCodes.Status200OK)]
-                [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-                public async Task<IActionResult> GetEvenements([FromQuery] RequestParams requestParams)
-                {
-                    var evenements = await _unitOfWork.Evenements.GetAll(requestParams);
-                    // return a list of CountryDTOs
-                    var results = _mapper.Map<IList<EvenementDTO>>(evenements);
-                    return Ok(results);
-                }*/
-
-        // GET - Evenements
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetEvenements()
         {
             try
@@ -59,7 +45,26 @@ namespace Colomb.Controllers
             }
         }
 
-        // GET - Simple example
+        // ------------------ GET by Id ------------------ // 
+        [HttpGet("{id:int}", Name = "GetEvenement")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetEvenement(int id)
+        {
+            try
+            {
+                var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id, new List<string> { "Reviews" });
+                var result = _mapper.Map<EvenementDTO>(evenement);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Erreur. {nameof(GetEvenements)}");
+                return StatusCode(500, "Internal server error. Please try again later");
+            }
+        }
+
+        // ------------------ GET Simple Example ------------------ // 
         /* [HttpGet]
         public async Task<IActionResult> GetEvenements()
         {
@@ -74,5 +79,22 @@ namespace Colomb.Controllers
                 return StatusCode(500, "Internal server error. Please try again later");
             }
         }*/
+
+        // ------------------ GET Complex Example------------------ // 
+        /*        // Override Global Caching Options
+                [HttpGet]
+                //[HttpCacheExpiration(CacheLocation = CacheLocation.Public, MaxAge = 60)]
+                //[HttpCacheValidation(MustRevalidate = false)] // if data changes dont invalidate cache (to be used carefully)
+                [ResponseCache(CacheProfileName = "120SecondsDuration")]
+                [ProducesResponseType(StatusCodes.Status200OK)]
+                [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+                public async Task<IActionResult> GetEvenements([FromQuery] RequestParams requestParams)
+                {
+                    var evenements = await _unitOfWork.Evenements.GetAll(requestParams);
+                    // return a list of CountryDTOs
+                    var results = _mapper.Map<IList<EvenementDTO>>(evenements);
+                    return Ok(results);
+                }*/
+
     }
 }
