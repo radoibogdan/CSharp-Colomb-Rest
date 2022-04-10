@@ -14,6 +14,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Colomb.Configurations;
+using Colomb.IRepository;
+using Colomb.Repository;
 
 namespace Colomb
 {
@@ -48,13 +50,27 @@ namespace Colomb
             /* Auto Mapper */
             services.AddAutoMapper(typeof(MapperInitializer));
 
+            /* Register IUnitOfWork */
+            // AddTransient - provide a fresh copy every time a client contacts the server
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             /* Swagger */
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Colomb", Version = "v1" });
             });
 
             /* Controllers */
-            services.AddControllers();
+            // NewSoft => Ignore some Loop Reference Warnings
+            services.AddControllers(
+            /* config => {
+                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile
+                {
+                    Duration = 120
+                });
+            }*/
+                ).AddNewtonsoftJson(op =>
+                op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
