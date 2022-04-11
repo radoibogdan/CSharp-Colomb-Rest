@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 // Bridge between our classes and our actual database
 namespace Colomb.Data
 {
-    public class DatabaseContext : DbContext
+    public class DatabaseContext : IdentityDbContext<Compte>
     {
         // Define Constructor
         public DatabaseContext(DbContextOptions options) : base(options)
@@ -19,19 +21,20 @@ namespace Colomb.Data
         /*public DbSet<CompteLikerEvenement> CompteLikerEvenements { get; set; }*/
 
         protected override void OnModelCreating(ModelBuilder builder)
-        {
+        {   
+            base.OnModelCreating(builder);
             // Fake data
             builder.Entity<Compte>().HasData(
                 new Compte
                 {
-                    CompteId = 1,
+                    Id = "1",
                     Email = "bogdan@gmail.com",
-                    Login = "bogdan",
-                    Password = "bogdan",
+                    UserName = "bogdan",
+                    PasswordHash = "bogdan",
                     Nom = "Radoi",
                     Prenom = "Bogdan",
                     Adresse = "40 rue de Compte",
-                    DOB = new DateTime(10 / 12 / 1988),
+                    DOB = new DateTime(1988, 12, 10, 0, 0, 0),
                     Photo = "chemin/photo_compte_profil",
                     Description = "Description",
                     Role = "ROLE_USER",
@@ -41,14 +44,14 @@ namespace Colomb.Data
                 },
                 new Compte
                 {
-                    CompteId = 2,
+                    Id = "2",
                     Email = "wally@gmail.com",
-                    Login = "wally",
-                    Password = "wally",
+                    UserName = "wally",
+                    PasswordHash = "wally",
                     Nom = "Cisse",
                     Prenom = "Wally",
                     Adresse = "40 rue de Paris",
-                    DOB = new DateTime(10 / 12 / 1988),
+                    DOB = new DateTime(1992, 6, 12, 0, 0, 0),
                     Photo = "dossier/photo",
                     Description = "Description",
                     Role = "ROLE_USER",
@@ -58,14 +61,14 @@ namespace Colomb.Data
                 },
                 new Compte
                 {
-                    CompteId = 3,
+                    Id = "3",
                     Email = "daria@gmail.com",
-                    Login = "daria",
-                    Password = "Daria",
+                    UserName = "daria",
+                    PasswordHash = "Daria",
                     Nom = "Rychkova",
                     Prenom = "daria",
                     Adresse = "40 rue de Paris",
-                    DOB = new DateTime(10 / 12 / 1988),
+                    DOB = new DateTime(1990, 5, 20, 0, 0, 0),
                     Photo = "dossier/photo",
                     Description = "Description",
                     Role = "ROLE_USER",
@@ -201,12 +204,12 @@ namespace Colomb.Data
                 .HasMany(c => c.EvenementsLiked)
                 .WithMany(e => e.ComptesEvenementsLiked)
                 .UsingEntity(j => j.HasData(
-                    new { ComptesEvenementsLikedCompteId = 1, EvenementsLikedEvenementId = 3 },
-                    new { ComptesEvenementsLikedCompteId = 2, EvenementsLikedEvenementId = 3 },
-                    new { ComptesEvenementsLikedCompteId = 2, EvenementsLikedEvenementId = 1 },
-                    new { ComptesEvenementsLikedCompteId = 3, EvenementsLikedEvenementId = 2 },
-                    new { ComptesEvenementsLikedCompteId = 3, EvenementsLikedEvenementId = 1 },
-                    new { ComptesEvenementsLikedCompteId = 3, EvenementsLikedEvenementId = 3 }
+                    new { ComptesEvenementsLikedId = "1", EvenementsLikedEvenementId = 3 },
+                    new { ComptesEvenementsLikedId = "2", EvenementsLikedEvenementId = 3 },
+                    new { ComptesEvenementsLikedId = "2", EvenementsLikedEvenementId = 1 },
+                    new { ComptesEvenementsLikedId = "3", EvenementsLikedEvenementId = 2 },
+                    new { ComptesEvenementsLikedId = "3", EvenementsLikedEvenementId = 1 },
+                    new { ComptesEvenementsLikedId = "3", EvenementsLikedEvenementId = 3 }
                 ))
                 ;
 
@@ -219,16 +222,16 @@ namespace Colomb.Data
                .HasMany(c => c.ReviewsLiked)
                .WithMany(e => e.ComptesReviewsLiked)
                .UsingEntity(j => j.HasData(
-                   new { ComptesReviewsLikedCompteId = 1, ReviewsLikedReviewId = 5 },
-                   new { ComptesReviewsLikedCompteId = 2, ReviewsLikedReviewId = 1 },
-                   new { ComptesReviewsLikedCompteId = 2, ReviewsLikedReviewId = 2 },
-                   new { ComptesReviewsLikedCompteId = 2, ReviewsLikedReviewId = 3 },
-                   new { ComptesReviewsLikedCompteId = 2, ReviewsLikedReviewId = 4 },
-                   new { ComptesReviewsLikedCompteId = 3, ReviewsLikedReviewId = 1 },
-                   new { ComptesReviewsLikedCompteId = 3, ReviewsLikedReviewId = 2 },
-                   new { ComptesReviewsLikedCompteId = 3, ReviewsLikedReviewId = 3 },
-                   new { ComptesReviewsLikedCompteId = 3, ReviewsLikedReviewId = 4 },
-                   new { ComptesReviewsLikedCompteId = 3, ReviewsLikedReviewId = 5 }
+                   new { ComptesReviewsLikedId = "1", ReviewsLikedReviewId = 5 },
+                   new { ComptesReviewsLikedId = "2", ReviewsLikedReviewId = 1 },
+                   new { ComptesReviewsLikedId = "2", ReviewsLikedReviewId = 2 },
+                   new { ComptesReviewsLikedId = "2", ReviewsLikedReviewId = 3 },
+                   new { ComptesReviewsLikedId = "2", ReviewsLikedReviewId = 4 },
+                   new { ComptesReviewsLikedId = "3", ReviewsLikedReviewId = 1 },
+                   new { ComptesReviewsLikedId = "3", ReviewsLikedReviewId = 2 },
+                   new { ComptesReviewsLikedId = "3", ReviewsLikedReviewId = 3 },
+                   new { ComptesReviewsLikedId = "3", ReviewsLikedReviewId = 4 },
+                   new { ComptesReviewsLikedId = "3", ReviewsLikedReviewId = 5 }
                 ))
                ;
             builder.Entity<Review>()

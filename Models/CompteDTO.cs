@@ -7,22 +7,18 @@ using Colomb.Data;
 
 namespace Colomb.Models
 {
-    public class CompteDTO : CreateCompteDTO
+    public class LoginCompteDTO
     {
-        public int CompteId { get; set; }
-        public List<ReviewDTO> Reviews { get; set; }
-        public List<EvenementDTO> EvenementsCrees { get; set; }
-        public ICollection<EvenementDTO> EvenementsLiked { get; set; }
-        public ICollection<ReviewDTO> ReviewsLiked { get; set; }
-    }
-
-    public class CreateCompteDTO
-    {
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required]
-        [StringLength(maximumLength: 30, ErrorMessage = "Votre login est trop long.")]
-        public string Login { get; set; }
+        [StringLength(15, ErrorMessage = "Votre mot de passe est limité entre {2} et {1} caractères", MinimumLength = 6)]
         public string Password { get; set; }
+    }
+    public class CompteDTO : LoginCompteDTO
+    {
+        public string Login { get; set; }
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Adresse { get; set; }
@@ -33,5 +29,9 @@ namespace Colomb.Models
         public bool VisibiliteReviews { get; set; }
         public bool estValide { get; set; }
         public string NumeroSiret { get; set; }
+        public List<ReviewDTO> Reviews { get; set; }
+        public List<EvenementDTO> EvenementsCrees { get; set; }
+        public ICollection<EvenementDTO> EvenementsLiked { get; set; }
+        public ICollection<ReviewDTO> ReviewsLiked { get; set; }
     }
 }

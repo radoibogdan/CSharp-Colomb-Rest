@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Colomb.Data
 {
-    public class Compte
-    {
-        public int CompteId { get; set; }
-        public string Email { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
+    public class Compte: IdentityUser
+    {   
+        /*public int CompteId { get; set; }*/       // Id in IdentityUser
+        /*public string Email { get; set; }*/       // Email in IdentityUser
+        /*public string Login { get; set; }*/       // UserName in IdentityUser
+        /*public string Password { get; set; }*/    // PasswordHash in IdentityUser
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Adresse { get; set; }
