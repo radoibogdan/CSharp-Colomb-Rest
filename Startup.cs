@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using Colomb.Configurations;
 using Colomb.IRepository;
 using Colomb.Repository;
+using Colomb.Services;
 
 namespace Colomb
 {
@@ -43,6 +44,9 @@ namespace Colomb
             // Authentication - Abstract config to ServiceExtensions.cs file
             services.ConfigureIdentity();
 
+            // Authentication - JWT
+            services.ConfigureJWT(Configuration);
+
             // CORS Configuration
             // Who is allowed to access this API, what methods are available and what headers must the user have
             services.AddCors(o => {
@@ -58,6 +62,9 @@ namespace Colomb
             /* Register IUnitOfWork */
             // AddTransient - provide a fresh copy every time a client contacts the server
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            // Authentication - Register Service AuthManager
+            services.AddScoped<IAuthManager, AuthManager>();
 
             /* Swagger */
             services.AddSwaggerGen(c => {

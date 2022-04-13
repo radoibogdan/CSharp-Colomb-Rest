@@ -1,10 +1,14 @@
 ﻿using Colomb.Data;
 using Colomb.Models;
+/*using AspNetCoreRateLimit;
+using Marvin.Cache.Headers;*/
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+/*using Microsoft.AspNetCore.Mvc.Versioning;*/
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -29,11 +33,14 @@ namespace Colomb
             builder.AddEntityFrameworkStores<DatabaseContext>().AddDefaultTokenProviders();
         }
 
-        /* // Iconfiguration gives access to appsettings.json file
+         // Iconfiguration gives access to appsettings.json file
          public static void ConfigureJWT(this IServiceCollection services, IConfiguration configuration)
          {
              var jwtSettings = configuration.GetSection("Jwt");
-             var key = Environment.GetEnvironmentVariable("KEY");
+            /* Set environment var for token JWT on windows : 
+             * setx KEY "ffc632ce-0053-4bab-8077-93a4d14caaad" /M 
+             */
+            var key = Environment.GetEnvironmentVariable("KEY");
              services
                  .AddAuthentication(o => {
                      // Default config, when someone tries to auth check for bearer token
@@ -53,6 +60,7 @@ namespace Colomb
                  });
          }
 
+         /*  
          // Exception Handler
          public static void ConfigureExceptionHandler(this IApplicationBuilder app)
          {
