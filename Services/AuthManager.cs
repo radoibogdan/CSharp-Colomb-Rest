@@ -19,6 +19,8 @@ namespace Colomb.Services
         private readonly IConfiguration _configuration;
         private Compte _user;
 
+        /* 14.35*/
+
         public AuthManager(UserManager<Compte> userManager, IConfiguration configuration) 
         {
             _userManager = userManager;
