@@ -33,5 +33,7 @@ namespace Colomb.Models
         public List<EvenementDTO> EvenementsCrees { get; set; }
         public ICollection<EvenementDTO> EvenementsLiked { get; set; }
         public ICollection<ReviewDTO> ReviewsLiked { get; set; }
+
+        public ICollection<string> Roles { get; set; }
     }
 }

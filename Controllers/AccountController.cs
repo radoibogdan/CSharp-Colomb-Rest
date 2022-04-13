@@ -76,7 +76,7 @@ namespace Colomb.Controllers
             }
         }
 
-        [HttpPost]
+/*        [HttpPost]
         [Route("login")] // api/Compte/login
         public async Task<IActionResult> Login([FromBody] LoginCompteDTO compteDTO)
         {
@@ -100,6 +100,6 @@ namespace Colomb.Controllers
                 _logger.LogError(ex, $"Something went wrong in the {nameof(Login)}");
                 return Problem($"Something went wrong in the {nameof(Login)}", statusCode: 500);
             }
-        }
+        }*/
     }
 }
