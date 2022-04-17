@@ -103,6 +103,8 @@ namespace Colomb
 
             app.UseRouting();
 
+            // Authentication
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -9,7 +9,7 @@ namespace Colomb.Services
     public interface IAuthManager
     {
         // Validate user
-        Task<bool> ValidateUser(CompteDTO userDTO);
+        Task<bool> ValidateUser(LoginCompteDTO userDTO);
 
         // Create and return the token
         Task<string> CreateToken();

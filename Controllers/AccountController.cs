@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Colomb.Data;
 using Colomb.Models;
+using Colomb.Services;
 /*using Colomb.Services;*/
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,16 +21,16 @@ namespace Colomb.Controllers
         private readonly UserManager<Compte> _userManager;
         private readonly ILogger<AccountController> _logger;
         private readonly IMapper _mapper;
-        /*private readonly IAuthManager _authManager;*/
+        private readonly IAuthManager _authManager;
         public AccountController(UserManager<Compte> userManager,
             ILogger<AccountController> logger,
-            IMapper mapper
-            /*IAuthManager authManager*/)
+            IMapper mapper,
+            IAuthManager authManager)
         {
             _userManager = userManager;
             _logger = logger;
             _mapper = mapper;
-            /*_authManager = authManager;*/
+            _authManager = authManager;
         }
 
         [HttpPost]
@@ -39,7 +40,7 @@ namespace Colomb.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register([FromBody] CompteDTO compteDTO)
         {
-            _logger.LogInformation($"Enregistrement pour commencé {compteDTO.Email}");
+            _logger.LogInformation($"Enregistrement commencé pour {compteDTO.Email}");
             // Verify form
             if (!ModelState.IsValid)
             {
@@ -76,8 +77,8 @@ namespace Colomb.Controllers
             }
         }
 
-/*        [HttpPost]
-        [Route("login")] // api/Compte/login
+        [HttpPost]
+        [Route("login")] // api/Account/login
         public async Task<IActionResult> Login([FromBody] LoginCompteDTO compteDTO)
         {
             _logger.LogInformation($"Login Attemp form {compteDTO.Email}");
@@ -100,6 +101,6 @@ namespace Colomb.Controllers
                 _logger.LogError(ex, $"Something went wrong in the {nameof(Login)}");
                 return Problem($"Something went wrong in the {nameof(Login)}", statusCode: 500);
             }
-        }*/
+        }
     }
 }

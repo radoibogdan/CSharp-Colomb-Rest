@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Colomb.IRepository;
 using Colomb.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -46,6 +47,7 @@ namespace Colomb.Controllers
         }
 
         // ------------------ GET by Id ------------------ // 
+        /*[Authorize]*/ /* Protect EndPoint with JWT Token Authentication*/
         [HttpGet("{id:int}", Name = "GetEvenement")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

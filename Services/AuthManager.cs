@@ -19,8 +19,6 @@ namespace Colomb.Services
         private readonly IConfiguration _configuration;
         private Compte _user;
 
-        /* 14.35*/
-
         public AuthManager(UserManager<Compte> userManager, IConfiguration configuration) 
         {
             _userManager = userManager;
@@ -60,6 +58,7 @@ namespace Colomb.Services
             {
                 new Claim(ClaimTypes.Name, _user.UserName)
             };
+            // Get roles for _user
             var roles = await _userManager.GetRolesAsync(_user);
             foreach (var role in roles)
             {
@@ -76,7 +75,7 @@ namespace Colomb.Services
         }
 
         // Validating the user - does the user exist in the db and is pwd valid
-        public async Task<bool> ValidateUser(CompteDTO userDTO)
+        public async Task<bool> ValidateUser(LoginCompteDTO userDTO)
         {
             _user = await _userManager.FindByNameAsync(userDTO.Email);
             return (_user != null && await _userManager.CheckPasswordAsync(_user, userDTO.Password));
