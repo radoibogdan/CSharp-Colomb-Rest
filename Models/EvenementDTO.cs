@@ -37,4 +37,9 @@ namespace Colomb.Models
         public double Latitude { get; set; }
         public int? CompteId { get; set; }
     }
+
+    public class UpdateEvenementDTO : CreateEvenementDTO
+    {
+
+    }
 }

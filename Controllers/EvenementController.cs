@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Colomb.Data;
 using Colomb.IRepository;
 using Colomb.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +28,8 @@ namespace Colomb.Controllers
             _mapper = mapper;
         }
 
-        // ------------------ GET ------------------ // 
+        /* ------------------ GET ALL ------------------ */
+        // https://localhost:44311/api/Evenement
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -46,8 +48,8 @@ namespace Colomb.Controllers
             }
         }
 
-        // ------------------ GET by Id ------------------ // 
-        /*[Authorize]*/ /* Protect EndPoint with JWT Token Authentication*/
+        /* ------------------ GET by Id ------------------ */
+        // https://localhost:44311/api/Evenement/1 
         [HttpGet("{id:int}", Name = "GetEvenement")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -63,6 +65,107 @@ namespace Colomb.Controllers
             {
                 _logger.LogError(ex, $"Erreur. {nameof(GetEvenements)}");
                 return StatusCode(500, "Internal server error. Please try again later");
+            }
+        }
+
+        /* ------------------ POST CREATE ------------------ */
+        /*[Authorize(Roles = "Administrator")]*/ /* Protect EndPoint with JWT Token Authentication*/
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CreateEvenement([FromBody] CreateEvenementDTO evenementDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _logger.LogError($"Invalid POST attempt in {nameof(CreateEvenement)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                // Mapping the content of evenementDTO into an object of type "Evenement" which is a data object
+                var evenement = _mapper.Map<Evenement>(evenementDTO);
+                await _unitOfWork.Evenements.Insert(evenement);
+                await _unitOfWork.Save();
+                // Created = returns Code 201
+                // CreatedAtRoute = return Code 201 + the created object by executing GetEvenement
+                return CreatedAtRoute("GetEvenement", new { id = evenement.EvenementId }, evenement);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(CreateEvenement)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        /* PUT - EDIT */
+        /*[Authorize(Roles = "Administrator")]*/
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateEvenement(int id, [FromBody] UpdateEvenementDTO evenementDTO)
+        {
+            if (!ModelState.IsValid || id < 1)
+            {
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateEvenement)}");
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                // get original record
+                var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id);
+                if (evenement == null)
+                {
+                    _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateEvenement)}");
+                    return BadRequest("Submitted data in invalid.");
+                }
+
+                // Map () => update/insert in "hotel" what is in "hotelDTO"
+                _mapper.Map(evenementDTO, evenement);
+                _unitOfWork.Evenements.Update(evenement);
+                await _unitOfWork.Save();
+                return NoContent(); // Code 204, no data is returned
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(UpdateEvenement)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        /*[Authorize(Roles = "Administrator")]*/
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteEvenement(int id)
+        {
+            if (id < 1)
+            {
+                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteEvenement)}");
+                return BadRequest();
+            }
+
+            try
+            {
+                var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id);
+                if (evenement == null)
+                {
+                    _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteEvenement)}");
+                    return BadRequest("Submitted data in invalid.");
+
+                }
+                await _unitOfWork.Evenements.Delete(id);
+                await _unitOfWork.Save();
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Something went wrong in the {nameof(DeleteEvenement)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
 

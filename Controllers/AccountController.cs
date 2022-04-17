@@ -33,6 +33,7 @@ namespace Colomb.Controllers
             _authManager = authManager;
         }
 
+        /* POST - REGISTER */
         [HttpPost]
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -77,8 +78,10 @@ namespace Colomb.Controllers
             }
         }
 
+        /* POST - LOGIN */
+        // https://localhost:44311/api/Account/login
         [HttpPost]
-        [Route("login")] // api/Account/login
+        [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginCompteDTO compteDTO)
         {
             _logger.LogInformation($"Login Attemp form {compteDTO.Email}");
