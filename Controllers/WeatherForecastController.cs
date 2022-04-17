@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Colomb.Controllers
 {
-    [ApiController]
+    /*[ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
@@ -35,5 +35,5 @@ namespace Colomb.Controllers
             })
             .ToArray();
         }
-    }
+    }*/
 }

@@ -1,5 +1,6 @@
 ﻿using Colomb.Data;
 using Colomb.IRepository;
+using Colomb.Models;
 /*using HotelListing.Models;*/
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using X.PagedList;
 /*using X.PagedList;*/
 
 namespace Colomb.Repository
@@ -84,13 +86,13 @@ namespace Colomb.Repository
             return await query.AsNoTracking().ToListAsync();
         }
 
-       /* public async Task<IPagedList<T>> GetPagedList(RequestParams requestParams, List<string> includes = null)
+        public async Task<IPagedList<T>> GetPagedList(RequestParams requestParams, List<string> includes = null)
         {
             // Get all the record in the table
             IQueryable<T> query = _db;
 
             // For each ForeignKey in includes, get the record corresponding - sql join
-            // ex: Country in includes => gets hotel and its corresponding country columns
+            // ex: Compte in includes => gets Evenement and its corresponding Comptes columns
             if (includes != null)
             {
                 foreach (var includeProperty in includes)
@@ -101,7 +103,7 @@ namespace Colomb.Repository
 
             // AsNoTracking = don't modify the record in the db
             return await query.AsNoTracking().ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
-        }*/
+        }
 
         public async Task Insert(T entity)
         {

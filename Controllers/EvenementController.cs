@@ -30,22 +30,16 @@ namespace Colomb.Controllers
 
         /* ------------------ GET ALL ------------------ */
         // https://localhost:44311/api/Evenement
+        // https://localhost:44311/api/Evenement?pagesize=1&pagenumber=2
+        // Paging available, created RequestParams in ./Models
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetEvenements()
+        public async Task<IActionResult> GetEvenements([FromQuery] RequestParams requestParams) 
         {
-            try
-            {
-                var evenements = await _unitOfWork.Evenements.GetAll();
-                var results = _mapper.Map<IList<EvenementDTO>>(evenements);
-                return Ok(results);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Erreur. {nameof(GetEvenements)}");
-                return StatusCode(500, "Internal server error. Please try again later");
-            }
+            var evenements = await _unitOfWork.Evenements.GetPagedList(requestParams);
+            var results = _mapper.Map<IList<EvenementDTO>>(evenements);
+            return Ok(results);
         }
 
         /* ------------------ GET by Id ------------------ */
@@ -55,17 +49,9 @@ namespace Colomb.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetEvenement(int id)
         {
-            try
-            {
-                var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id, new List<string> { "Reviews" });
-                var result = _mapper.Map<EvenementDTO>(evenement);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Erreur. {nameof(GetEvenements)}");
-                return StatusCode(500, "Internal server error. Please try again later");
-            }
+            var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id, new List<string> { "Reviews" });
+            var result = _mapper.Map<EvenementDTO>(evenement);
+            return Ok(result);
         }
 
         /* ------------------ POST CREATE ------------------ */
@@ -81,21 +67,14 @@ namespace Colomb.Controllers
                 _logger.LogError($"Invalid POST attempt in {nameof(CreateEvenement)}");
                 return BadRequest(ModelState);
             }
-            try
-            {
-                // Mapping the content of evenementDTO into an object of type "Evenement" which is a data object
-                var evenement = _mapper.Map<Evenement>(evenementDTO);
-                await _unitOfWork.Evenements.Insert(evenement);
-                await _unitOfWork.Save();
-                // Created = returns Code 201
-                // CreatedAtRoute = return Code 201 + the created object by executing GetEvenement
-                return CreatedAtRoute("GetEvenement", new { id = evenement.EvenementId }, evenement);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(CreateEvenement)}");
-                return StatusCode(500, "Internal server error. Please try again later.");
-            }
+           
+            // Mapping the content of evenementDTO into an object of type "Evenement" which is a data object
+            var evenement = _mapper.Map<Evenement>(evenementDTO);
+            await _unitOfWork.Evenements.Insert(evenement);
+            await _unitOfWork.Save();
+            // Created = returns Code 201
+            // CreatedAtRoute = return Code 201 + the created object by executing GetEvenement
+            return CreatedAtRoute("GetEvenement", new { id = evenement.EvenementId }, evenement);
         }
 
         /* PUT - EDIT */
@@ -111,28 +90,18 @@ namespace Colomb.Controllers
                 _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateEvenement)}");
                 return BadRequest(ModelState);
             }
-
-            try
+            // Get original record
+            var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id);
+            if (evenement == null)
             {
-                // get original record
-                var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id);
-                if (evenement == null)
-                {
-                    _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateEvenement)}");
-                    return BadRequest("Submitted data in invalid.");
-                }
-
-                // Map () => update/insert in "hotel" what is in "hotelDTO"
-                _mapper.Map(evenementDTO, evenement);
-                _unitOfWork.Evenements.Update(evenement);
-                await _unitOfWork.Save();
-                return NoContent(); // Code 204, no data is returned
+                _logger.LogError($"Invalid UPDATE attempt in {nameof(UpdateEvenement)}");
+                return BadRequest("Submitted data in invalid.");
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(UpdateEvenement)}");
-                return StatusCode(500, "Internal server error. Please try again later.");
-            }
+            // Update/insert in "hotel" what is in "hotelDTO"
+            _mapper.Map(evenementDTO, evenement);
+            _unitOfWork.Evenements.Update(evenement);
+            await _unitOfWork.Save();
+            return NoContent(); // Code 204, no data is returned
         }
 
         /*[Authorize(Roles = "Administrator")]*/
@@ -147,26 +116,16 @@ namespace Colomb.Controllers
                 _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteEvenement)}");
                 return BadRequest();
             }
-
-            try
+            var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id);
+            if (evenement == null)
             {
-                var evenement = await _unitOfWork.Evenements.Get(q => q.EvenementId == id);
-                if (evenement == null)
-                {
-                    _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteEvenement)}");
-                    return BadRequest("Submitted data in invalid.");
+                _logger.LogError($"Invalid DELETE attempt in {nameof(DeleteEvenement)}");
+                return BadRequest("Submitted data in invalid.");
 
-                }
-                await _unitOfWork.Evenements.Delete(id);
-                await _unitOfWork.Save();
-
-                return NoContent();
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Something went wrong in the {nameof(DeleteEvenement)}");
-                return StatusCode(500, "Internal server error. Please try again later.");
-            }
+            await _unitOfWork.Evenements.Delete(id);
+            await _unitOfWork.Save();
+            return NoContent();
         }
 
         // ------------------ GET Simple Example ------------------ // 
@@ -181,7 +140,12 @@ namespace Colomb.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Erreur. {nameof(GetEvenements)}");
+
+                // Return Error - var 1
                 return StatusCode(500, "Internal server error. Please try again later");
+
+                // Return Error - var 2
+                return Problem($"Something went wrong in the {nameof(Register)}", statusCode: 500);
             }
         }*/
 

@@ -1,5 +1,6 @@
 ﻿using Colomb.Data;
 using Colomb.Models;
+using HotelListing.Models;
 /*using AspNetCoreRateLimit;
 using Marvin.Cache.Headers;*/
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -60,7 +61,7 @@ namespace Colomb
                  });
          }
 
-         /*  
+          
          // Exception Handler
          public static void ConfigureExceptionHandler(this IApplicationBuilder app)
          {
@@ -85,6 +86,7 @@ namespace Colomb
              });
          }
 
+         /* 
          // Versioning - Microsoft.AspNetCore.Mvc.Versioning
          public static void ConfigureVersioning(this IServiceCollection services)
          {
