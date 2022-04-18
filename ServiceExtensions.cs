@@ -1,15 +1,12 @@
 ﻿using Colomb.Data;
 using Colomb.Models;
 using HotelListing.Models;
-/*using AspNetCoreRateLimit;
-using Marvin.Cache.Headers;*/
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-/*using Microsoft.AspNetCore.Mvc.Versioning;*/
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -86,22 +83,8 @@ namespace Colomb
              });
          }
 
-         /* 
-         // Versioning - Microsoft.AspNetCore.Mvc.Versioning
-         public static void ConfigureVersioning(this IServiceCollection services)
-         {
-             services.AddApiVersioning(opt =>
-             {
-                 // Header in our response = This is the version you are using
-                 opt.ReportApiVersions = true;
-                 // Set Default value for version. If client doesn't specify the version he want => he will get v1.0
-                 opt.AssumeDefaultVersionWhenUnspecified = true;
-                 opt.DefaultApiVersion = new ApiVersion(1, 0); // v1.0
-                 // Client needs to specify in Request Headers the api-version
-                 opt.ApiVersionReader = new HeaderApiVersionReader("api-version");
-             });
-         }
-
+        /* OPTIONAL CACHING AND RATE LIMITING*/
+        /*
          // Caching - using Marvin Cache Headers
          public static void ConfigureHttpCacheHeaders(this IServiceCollection services)
          {
@@ -120,7 +103,7 @@ namespace Colomb
              );
          }
 
-         //// Rate Limiting / Throttling 
+         // Rate Limiting / Throttling 
          public static void ConfigureRateLimiting(this IServiceCollection services)
          {
              var rateLimitRules = new List<RateLimitRule>

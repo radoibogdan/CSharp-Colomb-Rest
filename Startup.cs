@@ -73,14 +73,7 @@ namespace Colomb
 
             /* Controllers */
             // NewSoft => Ignore some Loop Reference Warnings
-            services.AddControllers(
-            /* config => {
-                config.CacheProfiles.Add("120SecondsDuration", new CacheProfile
-                {
-                    Duration = 120
-                });
-            }*/
-                ).AddNewtonsoftJson(op =>
+            services.AddControllers().AddNewtonsoftJson(op =>
                 op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
         }
@@ -92,9 +85,14 @@ namespace Colomb
             {
                 app.UseDeveloperExceptionPage();
             }
-             /* Swagger */
+
+            /* Swagger */
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Colomb v1"));
+            app.UseSwaggerUI(c => {
+                /*c.SwaggerEndpoint("/swagger/v1/swagger.json", "Colomb v1")*/
+                string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
+                c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "Colomb API");
+            });
 
             // Error Handling
             app.ConfigureExceptionHandler();
