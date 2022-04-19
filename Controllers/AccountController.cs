@@ -33,12 +33,13 @@ namespace Colomb.Controllers
         }
 
         /* POST - REGISTER */
+        // https://localhost:44311/api/Account/register
         [HttpPost]
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Register([FromBody] CompteDTO compteDTO)
+        public async Task<IActionResult> Register([FromBody] RegisterCompteDTO compteDTO)
         {
             _logger.LogInformation($"Enregistrement commencé pour {compteDTO.Email}");
             // Verify form

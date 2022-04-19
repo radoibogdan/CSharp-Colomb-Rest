@@ -15,6 +15,8 @@ namespace Colomb.Configurations
             // Define mappings
             // Compte class fields have a direct corelation with CompteDTO fields
             CreateMap<Compte, CompteDTO>().ReverseMap();
+            CreateMap<Compte, LoginCompteDTO>().ReverseMap();
+            CreateMap<Compte, RegisterCompteDTO>().ReverseMap();
             CreateMap<Review, ReviewDTO>().ReverseMap();
             CreateMap<Review, CreateReviewDTO>().ReverseMap();
             CreateMap<Evenement, EvenementDTO>().ReverseMap();

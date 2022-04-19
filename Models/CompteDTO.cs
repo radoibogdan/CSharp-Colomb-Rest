@@ -18,7 +18,7 @@ namespace Colomb.Models
     }
     public class CompteDTO : LoginCompteDTO
     {
-        /*public string Login { get; set; }*/
+        public int Id { get; set; } // TKey in Identity User - inherited by compte
         public string Nom { get; set; }
         public string Prenom { get; set; }
         public string Adresse { get; set; }
@@ -33,6 +33,11 @@ namespace Colomb.Models
         public List<EvenementDTO> EvenementsCrees { get; set; }
         public ICollection<EvenementDTO> EvenementsLiked { get; set; }
         public ICollection<ReviewDTO> ReviewsLiked { get; set; }
+        public ICollection<string> Roles { get; set; }
+    }
+
+    public class RegisterCompteDTO : LoginCompteDTO
+    {
         public ICollection<string> Roles { get; set; }
     }
 }
