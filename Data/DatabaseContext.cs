@@ -46,8 +46,9 @@ namespace Colomb.Data
             builder.Entity<Evenement>()
                 .HasOne(e => e.Compte)
                 .WithMany(c => c.EvenementsCrees)
+                .HasForeignKey(c => c.CompteId)
                 .IsRequired(false)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull) ;
             builder.Entity<Compte>()
                .HasMany(c => c.ReviewsLiked)
                .WithMany(e => e.ComptesReviewsLiked)
@@ -67,11 +68,13 @@ namespace Colomb.Data
             builder.Entity<Review>()
                 .HasOne(r => r.Compte)
                 .WithMany(c => c.Reviews)
+                .HasForeignKey(c => c.CompteId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
             builder.Entity<Review>()
                 .HasOne(r => r.Evenement)
-                .WithMany(c => c.Reviews)
+                .WithMany(e => e.Reviews)
+                .HasForeignKey(r => r.EvenementId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.SetNull);
 

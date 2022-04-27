@@ -25,7 +25,8 @@ namespace Colomb.Data
         public bool EstSuspendu { get; set; }
         public double Longitude { get; set; }
         public double Latitude { get; set; }
-        public int? CompteId { get; set; }                      // OneToMany Compte/Evenement (evenement crées)
+        /* [ForeignKey(nameof(Compte))]*/
+        public string? CompteId { get; set; }                      // OneToMany Compte/Evenement (evenement crées)
         public Compte Compte { get; set; }
         public List<Review> Reviews { get; set; }               // list of reviews associated with the Evenement
         public ICollection<Compte> ComptesEvenementsLiked { get; set; }   // ManyToMany Evenement/Comptes

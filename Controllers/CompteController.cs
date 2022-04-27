@@ -15,14 +15,14 @@ namespace Colomb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class CompteController : ControllerBase
     {
         private readonly UserManager<Compte> _userManager;
-        private readonly ILogger<AccountController> _logger;
+        private readonly ILogger<CompteController> _logger;
         private readonly IMapper _mapper;
         private readonly IAuthManager _authManager;
-        public AccountController(UserManager<Compte> userManager,
-            ILogger<AccountController> logger,
+        public CompteController(UserManager<Compte> userManager,
+            ILogger<CompteController> logger,
             IMapper mapper,
             IAuthManager authManager)
         {

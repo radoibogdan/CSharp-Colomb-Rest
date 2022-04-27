@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Colomb.Migrations
 {
-    public partial class CreateDatabase : Migration
+    public partial class dbcreated : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,7 +32,6 @@ namespace Colomb.Migrations
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VisibiliteReviews = table.Column<bool>(type: "bit", nullable: false),
                     estValide = table.Column<bool>(type: "bit", nullable: false),
                     NumeroSiret = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -184,15 +183,14 @@ namespace Colomb.Migrations
                     EstSuspendu = table.Column<bool>(type: "bit", nullable: false),
                     Longitude = table.Column<double>(type: "float", nullable: false),
                     Latitude = table.Column<double>(type: "float", nullable: false),
-                    CompteId = table.Column<int>(type: "int", nullable: true),
-                    CompteId1 = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CompteId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Evenements", x => x.EvenementId);
                     table.ForeignKey(
-                        name: "FK_Evenements_AspNetUsers_CompteId1",
-                        column: x => x.CompteId1,
+                        name: "FK_Evenements_AspNetUsers_CompteId",
+                        column: x => x.CompteId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
@@ -233,16 +231,15 @@ namespace Colomb.Migrations
                     NombreLikes = table.Column<int>(type: "int", nullable: false),
                     Contenu = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EstSignale = table.Column<bool>(type: "bit", nullable: false),
-                    CompteId = table.Column<int>(type: "int", nullable: true),
-                    CompteId1 = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CompteId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     EvenementId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reviews", x => x.ReviewId);
                     table.ForeignKey(
-                        name: "FK_Reviews_AspNetUsers_CompteId1",
-                        column: x => x.CompteId1,
+                        name: "FK_Reviews_AspNetUsers_CompteId",
+                        column: x => x.CompteId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
@@ -279,23 +276,33 @@ namespace Colomb.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "Adresse", "ConcurrencyStamp", "DOB", "Description", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "NumeroSiret", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "Prenom", "Role", "SecurityStamp", "TwoFactorEnabled", "UserName", "VisibiliteReviews", "estValide" },
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "1", 0, "40 rue de Compte", "18962d5d-da57-4dd1-973b-724eb13a91c5", new DateTime(1988, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description", "bogdan@gmail.com", false, false, null, "Radoi", null, null, null, "bogdan", null, false, "chemin/photo_compte_profil", "Bogdan", "ROLE_USER", "522c707e-18e8-46cb-b20d-f5976d4130a1", false, "bogdan", true, true },
-                    { "2", 0, "40 rue de Paris", "5b92832d-d6c3-4def-9c41-3dc5e173671f", new DateTime(1992, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description", "wally@gmail.com", false, false, null, "Cisse", null, null, null, "wally", null, false, "dossier/photo", "Wally", "ROLE_USER", "6ebfe1e0-6110-43f0-8845-3bb5cbd56165", false, "wally", true, true },
-                    { "3", 0, "40 rue de Paris", "f7058ddf-bafe-4b15-b9ae-0395b3236c77", new DateTime(1990, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description", "daria@gmail.com", false, false, null, "Rychkova", null, null, null, "Daria", null, false, "dossier/photo", "daria", "ROLE_USER", "016144b3-1c0e-4467-88cb-79b838696f4e", false, "daria", true, true }
+                    { "e2fddbeb-5e73-4783-a08a-44b3972eba2a", "25e8a834-3d3a-42ec-b211-26236281d47c", "User", "USER" },
+                    { "316e685c-5432-4da7-a019-84e2058a5408", "d9225178-dfc8-4c23-af1a-3b462ac3392b", "Administrator", "ADMINISTRATOR" },
+                    { "f0b3ce1f-43d5-4466-b1f1-720c78b9eb78", "8cb1598f-3316-4c96-bc71-fb586114fb2c", "Entreprise", "ENTREPRISE" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "Adresse", "ConcurrencyStamp", "DOB", "Description", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Nom", "NormalizedEmail", "NormalizedUserName", "NumeroSiret", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "Photo", "Prenom", "SecurityStamp", "TwoFactorEnabled", "UserName", "VisibiliteReviews", "estValide" },
+                values: new object[,]
+                {
+                    { "1", 0, "40 rue de Compte", "17dc49fa-de27-4811-a8e1-21c59705ed3e", new DateTime(1988, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description", "bogdan@gmail.com", false, false, null, "Radoi", null, null, null, "bogdan", null, false, "chemin/photo_compte_profil", "Bogdan", "a6dc5597-414d-4330-ab8c-89896ac5c805", false, "bogdan", true, true },
+                    { "2", 0, "40 rue de Paris", "3b572640-cee8-4bc0-9e41-5ee8b8b1400a", new DateTime(1992, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description", "wally@gmail.com", false, false, null, "Cisse", null, null, null, "wally", null, false, "dossier/photo", "Wally", "41ac4aec-99b9-4b16-8a7c-1cb957d46dd4", false, "wally", true, true },
+                    { "3", 0, "40 rue de Paris", "71dc99d2-a382-4c96-8871-342f5443ab75", new DateTime(1990, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description", "daria@gmail.com", false, false, null, "Rychkova", null, null, null, "Daria", null, false, "dossier/photo", "daria", "028f1bb7-48dd-4175-bdcc-896862528849", false, "daria", true, true }
                 });
 
             migrationBuilder.InsertData(
                 table: "Evenements",
-                columns: new[] { "EvenementId", "Adresse", "Categorie", "CompteId", "CompteId1", "Date", "Description", "EstSignale", "EstSuspendu", "HeureFermeture", "HeureOuverture", "Latitude", "Longitude", "Nom", "NombreLikes", "NombrePersMax", "NombreVues", "Photo", "Prix" },
+                columns: new[] { "EvenementId", "Adresse", "Categorie", "CompteId", "Date", "Description", "EstSignale", "EstSuspendu", "HeureFermeture", "HeureOuverture", "Latitude", "Longitude", "Nom", "NombreLikes", "NombrePersMax", "NombreVues", "Photo", "Prix" },
                 values: new object[,]
                 {
-                    { 1, "40 rue de Evenement", "musee", 1, null, new DateTime(2022, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description evenement", false, false, new DateTime(2022, 5, 20, 18, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 5, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 22.219999999999999, 40.219999999999999, "Evenement Comedie", 2, 50, 40, "chemin/photo_evenement", 40f },
-                    { 2, "40 rue de Evenement", "theatre", 2, null, new DateTime(2022, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description evenement", false, false, new DateTime(2022, 6, 15, 19, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), 11.220000000000001, 55.219999999999999, "Evenement dehors", 440, 20, 140, "chemin/photo_evenement", 300f },
-                    { 3, "40 rue de Evenement", "spectacle", 1, null, new DateTime(2022, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description evenement", false, false, new DateTime(2022, 2, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 2, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), 122.22, 140.22, "Evenement Parc", 112, 250, 140, "chemin/photo_evenement", 146f }
+                    { 1, "40 rue de Evenement", "musee", null, new DateTime(2022, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description evenement", false, false, new DateTime(2022, 5, 20, 18, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 5, 20, 9, 0, 0, 0, DateTimeKind.Unspecified), 22.219999999999999, 40.219999999999999, "Evenement Comedie", 2, 50, 40, "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg", 40f },
+                    { 2, "40 rue de Evenement", "theatre", null, new DateTime(2022, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description evenement", false, false, new DateTime(2022, 6, 15, 19, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 6, 15, 9, 0, 0, 0, DateTimeKind.Unspecified), 11.220000000000001, 55.219999999999999, "Evenement dehors", 440, 20, 140, "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg", 300f },
+                    { 3, "40 rue de Evenement", "spectacle", null, new DateTime(2022, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Description evenement", true, true, new DateTime(2022, 2, 10, 17, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2022, 2, 10, 10, 0, 0, 0, DateTimeKind.Unspecified), 122.22, 140.22, "Evenement Parc", 112, 250, 140, "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg", 146f }
                 });
 
             migrationBuilder.InsertData(
@@ -313,14 +320,14 @@ namespace Colomb.Migrations
 
             migrationBuilder.InsertData(
                 table: "Reviews",
-                columns: new[] { "ReviewId", "CompteId", "CompteId1", "Contenu", "Date", "EstSignale", "EvenementId", "NombreEtoiles", "NombreLikes" },
+                columns: new[] { "ReviewId", "CompteId", "Contenu", "Date", "EstSignale", "EvenementId", "NombreEtoiles", "NombreLikes" },
                 values: new object[,]
                 {
-                    { 3, 1, null, "Bref, je reviendrai pas", new DateTime(2022, 2, 15, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 1, 1, 0 },
-                    { 2, 3, null, "Tres bien", new DateTime(2022, 3, 14, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 2, 5, 1 },
-                    { 1, 2, null, "Sympa mais pas plus, je veux veux un remboursement", new DateTime(2022, 12, 31, 17, 0, 0, 0, DateTimeKind.Unspecified), true, 3, 2, 2 },
-                    { 4, 2, null, "Ingenieux et spectaculaire", new DateTime(2022, 5, 17, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 3, 3, 11 },
-                    { 5, 1, null, "Moyen mais pas cher, je ne recommande pas", new DateTime(2022, 9, 19, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 3, 2, 22 }
+                    { 3, null, "Bref, je reviendrai pas", new DateTime(2022, 2, 15, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 1, 1, 0 },
+                    { 2, null, "Tres bien", new DateTime(2022, 3, 14, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 2, 5, 1 },
+                    { 1, null, "Sympa mais pas plus, je veux veux un remboursement", new DateTime(2022, 12, 31, 17, 0, 0, 0, DateTimeKind.Unspecified), true, 3, 2, 2 },
+                    { 4, null, "Ingenieux et spectaculaire", new DateTime(2022, 5, 17, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 3, 3, 11 },
+                    { 5, null, "Moyen mais pas cher, je ne recommande pas", new DateTime(2022, 9, 19, 17, 0, 0, 0, DateTimeKind.Unspecified), false, 3, 2, 22 }
                 });
 
             migrationBuilder.InsertData(
@@ -390,14 +397,14 @@ namespace Colomb.Migrations
                 column: "ReviewsLikedReviewId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Evenements_CompteId1",
+                name: "IX_Evenements_CompteId",
                 table: "Evenements",
-                column: "CompteId1");
+                column: "CompteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_CompteId1",
+                name: "IX_Reviews_CompteId",
                 table: "Reviews",
-                column: "CompteId1");
+                column: "CompteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reviews_EvenementId",

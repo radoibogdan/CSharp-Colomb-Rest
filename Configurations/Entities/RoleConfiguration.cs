@@ -22,6 +22,11 @@ namespace Colomb.Configurations.Entities
                 {
                     Name = "Administrator",
                     NormalizedName = "ADMINISTRATOR"
+                },
+                new IdentityRole
+                {
+                    Name = "Entreprise",
+                    NormalizedName = "ENTREPRISE"
                 }
             );
         }

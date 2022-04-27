@@ -23,7 +23,7 @@ namespace Colomb.Configurations.Entities
                   Prix = 40,
                   Adresse = "40 rue de Evenement",
                   Categorie = "musee",
-                  Photo = "chemin/photo_evenement",
+                  Photo = "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg",
                   Description = "Description evenement",
                   NombrePersMax = 50,
                   NombreLikes = 2,
@@ -32,7 +32,7 @@ namespace Colomb.Configurations.Entities
                   EstSuspendu = false,
                   Longitude = 40.22,
                   Latitude = 22.22,
-                  CompteId = 1
+                  /*CompteId = 1*/
               },
               new Evenement
               {
@@ -44,7 +44,7 @@ namespace Colomb.Configurations.Entities
                   Prix = 300,
                   Adresse = "40 rue de Evenement",
                   Categorie = "theatre",
-                  Photo = "chemin/photo_evenement",
+                  Photo = "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg",
                   Description = "Description evenement",
                   NombrePersMax = 20,
                   NombreLikes = 440,
@@ -53,7 +53,7 @@ namespace Colomb.Configurations.Entities
                   EstSuspendu = false,
                   Longitude = 55.22,
                   Latitude = 11.22,
-                  CompteId = 2
+                  /*CompteId = 2*/
               },
               new Evenement
               {
@@ -65,16 +65,16 @@ namespace Colomb.Configurations.Entities
                   Prix = 146,
                   Adresse = "40 rue de Evenement",
                   Categorie = "spectacle",
-                  Photo = "chemin/photo_evenement",
+                  Photo = "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg",
                   Description = "Description evenement",
                   NombrePersMax = 250,
                   NombreLikes = 112,
                   NombreVues = 140,
-                  EstSignale = false,
-                  EstSuspendu = false,
+                  EstSignale = true,
+                  EstSuspendu = true,
                   Longitude = 140.22,
                   Latitude = 122.22,
-                  CompteId = 1
+                  /*CompteId = 1*/
               }
             );
         }

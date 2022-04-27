@@ -21,7 +21,7 @@ namespace Colomb.Configurations.Entities
                      NombreLikes = 2,
                      Contenu = "Sympa mais pas plus, je veux veux un remboursement",
                      EstSignale = true,
-                     CompteId = 2,
+                     /*CompteId = 2,*/
                      EvenementId = 3,
                  },
                  new Review
@@ -32,7 +32,7 @@ namespace Colomb.Configurations.Entities
                      NombreLikes = 1,
                      Contenu = "Tres bien",
                      EstSignale = false,
-                     CompteId = 3,
+                     /*CompteId = 3,*/
                      EvenementId = 2,
                  },
                  new Review
@@ -43,7 +43,7 @@ namespace Colomb.Configurations.Entities
                      NombreLikes = 0,
                      Contenu = "Bref, je reviendrai pas",
                      EstSignale = false,
-                     CompteId = 1,
+                     /*CompteId = 1,*/
                      EvenementId = 1,
                  },
                  new Review
@@ -54,7 +54,7 @@ namespace Colomb.Configurations.Entities
                      NombreLikes = 11,
                      Contenu = "Ingenieux et spectaculaire",
                      EstSignale = false,
-                     CompteId = 2,
+                     /*CompteId = 2,*/
                      EvenementId = 3,
                  },
                  new Review
@@ -65,7 +65,7 @@ namespace Colomb.Configurations.Entities
                      NombreLikes = 22,
                      Contenu = "Moyen mais pas cher, je ne recommande pas",
                      EstSignale = false,
-                     CompteId = 1,
+                     /*CompteId = 1,*/
                      EvenementId = 3,
                  }
               );

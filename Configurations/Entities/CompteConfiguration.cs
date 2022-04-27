@@ -25,7 +25,7 @@ namespace Colomb.Configurations.Entities
                     DOB = new DateTime(1988, 12, 10, 0, 0, 0),
                     Photo = "chemin/photo_compte_profil",
                     Description = "Description",
-                    Role = "ROLE_USER",
+                    /*Role = "ROLE_USER",*/
                     VisibiliteReviews = true,
                     estValide = true,
                     NumeroSiret = null
@@ -42,7 +42,7 @@ namespace Colomb.Configurations.Entities
                     DOB = new DateTime(1992, 6, 12, 0, 0, 0),
                     Photo = "dossier/photo",
                     Description = "Description",
-                    Role = "ROLE_USER",
+                    /*Role = "ROLE_USER",*/
                     VisibiliteReviews = true,
                     estValide = true,
                     NumeroSiret = null
@@ -59,7 +59,7 @@ namespace Colomb.Configurations.Entities
                     DOB = new DateTime(1990, 5, 20, 0, 0, 0),
                     Photo = "dossier/photo",
                     Description = "Description",
-                    Role = "ROLE_USER",
+                    /*Role = "ROLE_USER",*/
                     VisibiliteReviews = true,
                     estValide = true,
                     NumeroSiret = null

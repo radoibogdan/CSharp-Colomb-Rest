@@ -14,7 +14,7 @@ namespace Colomb.Data
         public int NombreLikes { get; set; }
         public string Contenu { get; set; }
         public bool EstSignale { get; set; }
-        public int? CompteId { get; set; } // ManyToOne Compte/Review // ManyToOne Compte/Evenement
+        public string? CompteId { get; set; } // ManyToOne Compte/Review // ManyToOne Compte/Evenement
         public Compte Compte { get; set; } 
         public int? EvenementId { get; set; } // ManyToOne Review/Evenement
         public Evenement Evenement { get; set; }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Colomb.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20220411203146_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20220427195119_dbcreated")]
+    partial class dbcreated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,9 +84,6 @@ namespace Colomb.Migrations
                     b.Property<string>("Prenom")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -121,7 +118,7 @@ namespace Colomb.Migrations
                             Id = "1",
                             AccessFailedCount = 0,
                             Adresse = "40 rue de Compte",
-                            ConcurrencyStamp = "18962d5d-da57-4dd1-973b-724eb13a91c5",
+                            ConcurrencyStamp = "17dc49fa-de27-4811-a8e1-21c59705ed3e",
                             DOB = new DateTime(1988, 12, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description",
                             Email = "bogdan@gmail.com",
@@ -132,8 +129,7 @@ namespace Colomb.Migrations
                             PhoneNumberConfirmed = false,
                             Photo = "chemin/photo_compte_profil",
                             Prenom = "Bogdan",
-                            Role = "ROLE_USER",
-                            SecurityStamp = "522c707e-18e8-46cb-b20d-f5976d4130a1",
+                            SecurityStamp = "a6dc5597-414d-4330-ab8c-89896ac5c805",
                             TwoFactorEnabled = false,
                             UserName = "bogdan",
                             VisibiliteReviews = true,
@@ -144,7 +140,7 @@ namespace Colomb.Migrations
                             Id = "2",
                             AccessFailedCount = 0,
                             Adresse = "40 rue de Paris",
-                            ConcurrencyStamp = "5b92832d-d6c3-4def-9c41-3dc5e173671f",
+                            ConcurrencyStamp = "3b572640-cee8-4bc0-9e41-5ee8b8b1400a",
                             DOB = new DateTime(1992, 6, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description",
                             Email = "wally@gmail.com",
@@ -155,8 +151,7 @@ namespace Colomb.Migrations
                             PhoneNumberConfirmed = false,
                             Photo = "dossier/photo",
                             Prenom = "Wally",
-                            Role = "ROLE_USER",
-                            SecurityStamp = "6ebfe1e0-6110-43f0-8845-3bb5cbd56165",
+                            SecurityStamp = "41ac4aec-99b9-4b16-8a7c-1cb957d46dd4",
                             TwoFactorEnabled = false,
                             UserName = "wally",
                             VisibiliteReviews = true,
@@ -167,7 +162,7 @@ namespace Colomb.Migrations
                             Id = "3",
                             AccessFailedCount = 0,
                             Adresse = "40 rue de Paris",
-                            ConcurrencyStamp = "f7058ddf-bafe-4b15-b9ae-0395b3236c77",
+                            ConcurrencyStamp = "71dc99d2-a382-4c96-8871-342f5443ab75",
                             DOB = new DateTime(1990, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description",
                             Email = "daria@gmail.com",
@@ -178,8 +173,7 @@ namespace Colomb.Migrations
                             PhoneNumberConfirmed = false,
                             Photo = "dossier/photo",
                             Prenom = "daria",
-                            Role = "ROLE_USER",
-                            SecurityStamp = "016144b3-1c0e-4467-88cb-79b838696f4e",
+                            SecurityStamp = "028f1bb7-48dd-4175-bdcc-896862528849",
                             TwoFactorEnabled = false,
                             UserName = "daria",
                             VisibiliteReviews = true,
@@ -200,10 +194,7 @@ namespace Colomb.Migrations
                     b.Property<string>("Categorie")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CompteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CompteId1")
+                    b.Property<string>("CompteId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("Date")
@@ -250,7 +241,7 @@ namespace Colomb.Migrations
 
                     b.HasKey("EvenementId");
 
-                    b.HasIndex("CompteId1");
+                    b.HasIndex("CompteId");
 
                     b.ToTable("Evenements");
 
@@ -260,7 +251,6 @@ namespace Colomb.Migrations
                             EvenementId = 1,
                             Adresse = "40 rue de Evenement",
                             Categorie = "musee",
-                            CompteId = 1,
                             Date = new DateTime(2022, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description evenement",
                             EstSignale = false,
@@ -273,7 +263,7 @@ namespace Colomb.Migrations
                             NombreLikes = 2,
                             NombrePersMax = 50,
                             NombreVues = 40,
-                            Photo = "chemin/photo_evenement",
+                            Photo = "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg",
                             Prix = 40f
                         },
                         new
@@ -281,7 +271,6 @@ namespace Colomb.Migrations
                             EvenementId = 2,
                             Adresse = "40 rue de Evenement",
                             Categorie = "theatre",
-                            CompteId = 2,
                             Date = new DateTime(2022, 6, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description evenement",
                             EstSignale = false,
@@ -294,7 +283,7 @@ namespace Colomb.Migrations
                             NombreLikes = 440,
                             NombrePersMax = 20,
                             NombreVues = 140,
-                            Photo = "chemin/photo_evenement",
+                            Photo = "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg",
                             Prix = 300f
                         },
                         new
@@ -302,11 +291,10 @@ namespace Colomb.Migrations
                             EvenementId = 3,
                             Adresse = "40 rue de Evenement",
                             Categorie = "spectacle",
-                            CompteId = 1,
                             Date = new DateTime(2022, 2, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "Description evenement",
-                            EstSignale = false,
-                            EstSuspendu = false,
+                            EstSignale = true,
+                            EstSuspendu = true,
                             HeureFermeture = new DateTime(2022, 2, 10, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             HeureOuverture = new DateTime(2022, 2, 10, 10, 0, 0, 0, DateTimeKind.Unspecified),
                             Latitude = 122.22,
@@ -315,7 +303,7 @@ namespace Colomb.Migrations
                             NombreLikes = 112,
                             NombrePersMax = 250,
                             NombreVues = 140,
-                            Photo = "chemin/photo_evenement",
+                            Photo = "https://www.tours-evenements.com/sites/default/files/media/header_image/header-tours-evenements.jpg",
                             Prix = 146f
                         });
                 });
@@ -327,10 +315,7 @@ namespace Colomb.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CompteId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CompteId1")
+                    b.Property<string>("CompteId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Contenu")
@@ -353,7 +338,7 @@ namespace Colomb.Migrations
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("CompteId1");
+                    b.HasIndex("CompteId");
 
                     b.HasIndex("EvenementId");
 
@@ -363,7 +348,6 @@ namespace Colomb.Migrations
                         new
                         {
                             ReviewId = 1,
-                            CompteId = 2,
                             Contenu = "Sympa mais pas plus, je veux veux un remboursement",
                             Date = new DateTime(2022, 12, 31, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             EstSignale = true,
@@ -374,7 +358,6 @@ namespace Colomb.Migrations
                         new
                         {
                             ReviewId = 2,
-                            CompteId = 3,
                             Contenu = "Tres bien",
                             Date = new DateTime(2022, 3, 14, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             EstSignale = false,
@@ -385,7 +368,6 @@ namespace Colomb.Migrations
                         new
                         {
                             ReviewId = 3,
-                            CompteId = 1,
                             Contenu = "Bref, je reviendrai pas",
                             Date = new DateTime(2022, 2, 15, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             EstSignale = false,
@@ -396,7 +378,6 @@ namespace Colomb.Migrations
                         new
                         {
                             ReviewId = 4,
-                            CompteId = 2,
                             Contenu = "Ingenieux et spectaculaire",
                             Date = new DateTime(2022, 5, 17, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             EstSignale = false,
@@ -407,7 +388,6 @@ namespace Colomb.Migrations
                         new
                         {
                             ReviewId = 5,
-                            CompteId = 1,
                             Contenu = "Moyen mais pas cher, je ne recommande pas",
                             Date = new DateTime(2022, 9, 19, 17, 0, 0, 0, DateTimeKind.Unspecified),
                             EstSignale = false,
@@ -556,6 +536,29 @@ namespace Colomb.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "e2fddbeb-5e73-4783-a08a-44b3972eba2a",
+                            ConcurrencyStamp = "25e8a834-3d3a-42ec-b211-26236281d47c",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = "316e685c-5432-4da7-a019-84e2058a5408",
+                            ConcurrencyStamp = "d9225178-dfc8-4c23-af1a-3b462ac3392b",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "f0b3ce1f-43d5-4466-b1f1-720c78b9eb78",
+                            ConcurrencyStamp = "8cb1598f-3316-4c96-bc71-fb586114fb2c",
+                            Name = "Entreprise",
+                            NormalizedName = "ENTREPRISE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -666,7 +669,7 @@ namespace Colomb.Migrations
                 {
                     b.HasOne("Colomb.Data.Compte", "Compte")
                         .WithMany("EvenementsCrees")
-                        .HasForeignKey("CompteId1")
+                        .HasForeignKey("CompteId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Compte");
@@ -676,7 +679,7 @@ namespace Colomb.Migrations
                 {
                     b.HasOne("Colomb.Data.Compte", "Compte")
                         .WithMany("Reviews")
-                        .HasForeignKey("CompteId1")
+                        .HasForeignKey("CompteId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Colomb.Data.Evenement", "Evenement")
